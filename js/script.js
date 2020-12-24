@@ -25,8 +25,22 @@ function criarCobrinha() {
 	}
 }
 
+document.addEventListener('keydown', update); //coletando a informação das setas de movimentação do teclado
+
+//abaixo temos as coordenadas de cada seta e sua respectiva direção, também está definido que se foi clicado uma direção ela não pode voltar ao sentido oposto pois só existe uma cabeça
+function update (event) {
+	if(event.keyCode == 37 && direction != "right") direction = "left";
+	if(event.keyCode == 38 && direction != "down") direction = "up";
+	if(event.keyCode == 39 && direction != "left") direction = "right";
+	if(event.keyCode == 40 && direction != "up") direction = "down";
+}
 //Abaixo esta a função para atualizar e encerrar o game
 function iniciarJogo(){
+	//abaixo estamos permitindo que a cobrinha ultrapasse as paredes do campo e apareça do lado oposto
+	if(snake[0].x > 15 * box && direction =="right") snake[0].x = 0;
+	if(snake[0].x < 0 && direction == "left") snake[0].x = 16 * box;
+	if(snake[0].y > 15 * box && direction == "down") snake[0].y = 0;
+	if(snake[0].y < 0 && direction =="up") snake[0].y = 16 * box;
 	criarBG(); //exibe o campo
 	criarCobrinha(); //exibe a cobrinha
 
