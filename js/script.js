@@ -49,8 +49,16 @@ function iniciarJogo(){
 	//abaixo estamos permitindo que a cobrinha ultrapasse as paredes do campo e apareça do lado oposto
 	if(snake[0].x > 15 * box && direction =="right") snake[0].x = 0;
 	if(snake[0].x < 0 && direction == "left") snake[0].x = 16 * box;
-	if(snake[0].y > 15 * box && direction == "down") snake[0].y = 0;
-	if(snake[0].y < 0 && direction =="up") snake[0].y = 16 * box;
+	if(snake[0].y > 15 * box && direction == "up") snake[0].y = 0;
+	if(snake[0].y < 0 && direction =="down") snake[0].y = 16 * box;
+
+	//criando laço que termina o jogo se a cabeça da cobra se chocar com o corpo
+	for(i = 1; i < snake.length; i++){
+		if(snake[0].x == snake[i].x && snake[0].y == snake[i].y){
+			clearInterval(jogo);
+			alert('Game Over')
+		}
+	}
 	criarBG(); //exibe o campo
 	criarCobrinha(); //exibe a cobrinha
 	drawFood(); //exibe a comida
@@ -65,7 +73,14 @@ function iniciarJogo(){
 	if(direction == "up") snakeY += box; //adiciona um bloco quando movimenta para cima
 	if(direction == "down") snakeY -= box; //adiciona um bloco quando movimenta para baixo
 
-	snake.pop(); //remove o ultimo elemento adicionado
+	//Aumentando o tamanho da cobrinha
+	if(snakeX != food.x || snakeY != food.y){
+		snake.pop(); //remove o ultimo elemento adicionado
+	}else {
+		food.x = Math.floor(Math.random() * 15 + 1) * box;
+		food.y = Math.floor(Math.random() * 15 + 1) * box;
+	}
+
 
 	let newHead = {
 		x: snakeX,
@@ -75,5 +90,5 @@ function iniciarJogo(){
 	snake.unshift(newHead); //criando uma nova cabeça para a cobrinha
  }
 
-let jogo = setInterval(iniciarJogo, 100); //Tempo para iniciar o jogo e atulizar
+let jogo = setInterval(iniciarJogo, 120); //Tempo para iniciar o jogo e atulizar
 
